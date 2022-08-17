@@ -1,0 +1,44 @@
+.signForm{
+    width: 100%; 
+}
+.signForm > section{
+    padding: 10px 0px;
+    margin-bottom: 10px
+}
+.signForm > section > input{
+    border: none;
+    border-bottom: 3px solid var(--secondary-color-opaco);
+    width: 100%;
+    font-size: 1em;
+    font-weight: normal;
+}
+.signForm > section > input::placeholder{
+    padding-left: 10px
+}
+.signForm > section > input:focus{
+    border-bottom: 3px solid var(--secondary-color);
+}
+.signForm > .signSubmitButton{
+    display: block;
+    margin: auto;
+    margin-top: 50px;
+    padding: 10px 15px;
+    background: transparent;
+    border: 2px solid var(--secondary-color);
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--secondary-color)
+}
+.signForm > button:hover{
+    background-color: var(--secondary-color);
+    color: white
+}
+@media (max-width: 780px){
+    .signForm > section > input{
+        margin: 5px 0
+    }
+    .signForm > .signSubmitButton{
+        margin: 0;
+        margin-left: auto
+    }
+}

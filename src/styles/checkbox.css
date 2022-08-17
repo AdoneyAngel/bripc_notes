@@ -1,0 +1,13 @@
+.checkbox{
+    width: 17px;
+    height: 17px;
+    border-radius: 100%;
+    border: 2px solid var(--secondary-color);
+    cursor: pointer;
+    padding: 4px;
+    user-select: none;
+}
+.checkbox > img{
+    width: 100%;
+    filter: invert(1);
+}

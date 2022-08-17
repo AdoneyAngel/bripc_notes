@@ -1,0 +1,25 @@
+.notify{
+    background-color: var(--secondary-color);
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    max-width: 300px;
+    z-index: 100;
+    font-size: 8px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    padding: 10px 12px;
+    animation: showNotification .2s ease-out;
+    box-shadow: 0px 0px 6px var(--secondary-color);
+}
+@keyframes showNotification{
+    0%{
+        right: -100%
+    }
+    100%{
+        right: 20px
+    }
+}

@@ -1,0 +1,21 @@
+:root{
+    --app-background: rgb(231, 231, 231);
+    --secondary-color: #5eacff;
+    --secondary-color-opaco: #5eacff41;
+}
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Varela Round', sans-serif;
+    outline: none;
+    transition: 0.2s;
+}
+body{
+    background: var(--app-background);
+    overflow-x: hidden;
+}
+@media (max-width: 780px){
+    body{
+        background: white;
+    }
+}
