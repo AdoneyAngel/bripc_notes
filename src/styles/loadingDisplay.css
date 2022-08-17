@@ -16,9 +16,15 @@
 
 @keyframes loadingAnimation {
     0%{
-        transform: rotate(0deg)
+        filter: invert(0.08) drop-shadow(0px 0px 15px rgba(126, 126, 126, 0.274));
+        transform: scale(0.98);
+    }
+    50%{
+        filter: invert(0) drop-shadow(0px 0px 0px rgba(126, 126, 126, 0.274));
+        transform: scale(1);
     }
     100%{
-        transform: rotate(360deg)
+        filter: invert(0.08) drop-shadow(0px 0px 15px rgba(126, 126, 126, 0.274));
+        transform: scale(0.98);
     }
 }
