@@ -2,6 +2,8 @@
     --app-background: rgb(231, 231, 231);
     --secondary-color: #5eacff;
     --secondary-color-opaco: #5eacff41;
+    --medium-black: rgb(53, 53, 53);
+    --low-black: rgb(218, 218, 218);
 }
 *{
     margin: 0;
@@ -10,9 +12,19 @@
     outline: none;
     transition: 0.2s;
 }
+*::-webkit-scrollbar{
+    background: var(--app-background);
+    border-radius: 2px;
+    width: 10px;
+    overflow: hidden;
+}
+*::-webkit-scrollbar-thumb{
+    background-color: rgb(197, 197, 197);
+    border-radius: 2px;
+}
 body{
     background: var(--app-background);
-    overflow-x: hidden;
+    overflow: hidden;
 }
 @media (max-width: 780px){
     body{

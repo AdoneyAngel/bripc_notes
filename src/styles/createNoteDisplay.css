@@ -1,0 +1,109 @@
+.createNoteDisplay{
+    position: absolute;
+    top: 16%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 7;
+    width: 400px;
+    height: 500px;
+    background: white;
+    border-radius: 5px;
+    animation: openCreateNoteDisplayAni 0.1s ease-out;
+}
+.createNoteDisplay > form{
+        display: block;
+        height: 300px;
+        padding: 10px;
+}
+.createNoteDisplay > form > section{
+    height: 280px;
+    overflow: hidden;
+}
+.createNoteDisplay > form > section > .createNoteDisplayFirstLabel{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.createNoteDisplay > form > section > .createNoteDisplayFirstLabel > section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: 10px;
+}
+.createNoteDisplay > form > section > .createNoteDisplayFirstLabel > input{
+    border: none;
+    color: var(--medium-black);
+    font-size: 1.2em;
+    padding: 7px;
+    width: 80%;
+}
+.createNoteDisplay > form > section > .createNoteDisplaySecondLabel{
+    display: block;
+    height: 200px;
+}
+.createNoteDisplay > form > section > .createNoteDisplaySecondLabel > textarea{
+    border: none;
+    padding: 10px;
+    padding-left: 15px;
+    font-size: 1em;
+    height: 95%;
+    width: 90%;
+    resize: none;
+}
+.createNoteDisplay > form > div > h1{
+    margin: 10px
+}
+.createNoteDisplay > form > div > section{
+    display: block;
+    width: calc(100% - 15px);
+    max-height: 80px;
+    padding-left: 14px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    box-shadow: inset 0px 0px 5px 1px var(--low-black);
+    border-radius: 8px;
+    overflow-y: auto;
+}
+.createNoteDisplay > form > div > section > p{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 5px;
+    user-select: none;
+}
+.createNoteDisplay > form > div > section > p > img{
+    width: 15px;
+    margin-right: 5px
+}
+.createNoteDisplay > form > div > h1{
+    font-size: 1.3em;
+    color: var(--medium-black);
+
+}
+.createNoteDisplay > form > button{
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    padding: 6px;
+    color: white;
+    cursor: pointer;
+    font-size: .95em;
+}
+
+@keyframes openCreateNoteDisplayAni {
+    0%{
+        top: 18%;
+        opacity: 0;
+    }
+    100%{
+        top: 16%;
+        opacity: 1;
+    }
+}

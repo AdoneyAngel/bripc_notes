@@ -1,0 +1,27 @@
+.superiorMainBar{
+    position: absolute;
+    top: 0;
+    z-index: 5;
+    height: 50px;
+    background-color: white;
+    width: 100%;
+    box-shadow: 0px -10px 20px var(--medium-black);
+    display: flex;
+    align-items: center;
+}
+.superiorMainBar > button{
+    background-color: var(--secondary-color);
+    width: 29px;
+    height: 29px;
+    border: none;
+    border-radius: 100%;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.superiorMainBar > button > img{
+    width: 60%;
+    filter: invert(1);
+}

@@ -25,7 +25,7 @@ export default class SignUp extends React.Component{
         if(this.state.userMail && this.state.userName && this.state.password){
             this.props.setLoadingDisplay()
 
-            this.checkSignUp(this.state.userName, this.state.userMail)
+            this.checkSignUp(this.state.userName.toLowerCase(), this.state.userMail.toLowerCase())
                 .then(result => {
                     this.props.stopLoadingDisplay()
         
@@ -46,6 +46,10 @@ export default class SignUp extends React.Component{
     }
     checkSignUp = async (userName, userMail) => {
         const users = await this.props.getBripcNotesUsers()
+
+        if(users.length < 1){
+            return true
+        }
 
         const userNameFound = users.filter(user => user.data().profile.name == userName).length > 0
         const userMailFound = users.filter(user => user.data().profile.mail == userMail).length > 0

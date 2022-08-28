@@ -24,7 +24,7 @@ export default class SignIn extends React.Component{
         if(!this.state.userMail || !this.state.password){
             this.props.notification("Complete all fields")
         }else{
-            this.props.signIn(this.state.userMail, this.state.password)
+            this.props.signIn(this.state.userMail.toLowerCase(), this.state.password)
         }
     }
 

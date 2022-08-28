@@ -23,6 +23,7 @@
     flex-direction: column;
     background-color: var(--secondary-color);
     position: relative;
+    user-select: none;
 }  
 .sign-logo-section > div{
     display: flex;

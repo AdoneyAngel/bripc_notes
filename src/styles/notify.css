@@ -12,7 +12,7 @@
     align-items: center;
     border-radius: 8px;
     padding: 10px 12px;
-    animation: showNotification .2s ease-out;
+    animation: showNotification .2s ease-in-out;
     box-shadow: 0px 0px 6px var(--secondary-color);
 }
 @keyframes showNotification{
