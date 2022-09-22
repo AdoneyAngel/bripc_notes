@@ -25,7 +25,7 @@
     position: sticky;
     top: 0;
     left: 0;
-    z-index: 4;
+    z-index: 6;
     background: linear-gradient(180deg, var(--app-background) 70%, transparent);
     margin-left: -5px;
     width: 120%;
@@ -56,7 +56,18 @@
 .tasksTable > div > section > header{
     position: absolute;
     top: 25px;
-    color: var(--medium-black)
+    color: var(--medium-black);
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 90%;
+}
+.tasksTable > div > section > header > img{
+    width: 28px;
+    display: block;
+    margin-left: auto;
+    cursor: pointer;
+    user-select: none;
 }
 .tasksTable > div > section > section{
     margin-top: 30px;
@@ -99,4 +110,29 @@
 .tasksTable > div > section > .underGroup > img{
     width: 20px;
     margin-right: 7px
+}
+.noteSettings{
+    z-index: 5;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0px 0px 5px 1px rgb(212, 212, 212);
+    padding: 10px;
+    border-radius: 6px;
+    right: 80px;
+    animation: .1s openNoteSettingsAni ease-out;
+}
+.noteSettings > p{
+    cursor: pointer;
+    user-select: none;
+}
+
+@keyframes openNoteSettingsAni {
+    0%{
+        opacity: 0;
+        transform: translateX(5%);
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(0%);
+    }
 }

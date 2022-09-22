@@ -61,6 +61,10 @@ export default class App extends React.Component{
     }
 
     signUp = async (name, mail, pass) => {
+
+        name = name.trim()
+        mail = mail.trim()
+
         const newDoc = {
             notes: {
                 list: [{
@@ -90,6 +94,8 @@ export default class App extends React.Component{
 
     signIn = async (userMail, pass) => {
 
+        userMail = userMail.trim().toLowerCase()
+
         this.setState({
             loading: true
         })
@@ -105,7 +111,7 @@ export default class App extends React.Component{
             let login = users.filter(user => user.data().profile.mail == userMail && user.data().profile.pass == pass).length == 1
 
             if(login){
-                let userName = users.filter(user => user.data().profile.mail == userMail && user.data().profile.pass == pass)[0].data().profile.name
+                let userName = users.filter(user => user.data().profile.mail.toLowerCase() == userMail && user.data().profile.pass == pass)[0].data().profile.name
 
                 this.saveUser(userName, userMail)
 
@@ -132,23 +138,15 @@ export default class App extends React.Component{
 
         const users = await this.getBripcNotesUsers()
 
-        console.log(users[0].data())
-
         const profile = users.filter(user => user.data().profile.name == name && user.data().profile.mail == mail)[0]
 
         const unsub = onSnapshot(doc(db, "users", profile.id), (doc) => {
             this.setState({
                 profile: doc.data()
             })
-            console.log(doc.data())
         });
 
         return profile.data()
-
-
-        // const unsub = onSnapshot(doc(db, "cities", "SF"), (doc) => {
-        //     console.log("Current data: ", doc.data());
-        // });
     }
     getUserDoc = async () => {
         const users = await  this.getBripcNotesUsers()
@@ -182,6 +180,7 @@ export default class App extends React.Component{
                     setCookie={this.setCookie}
                     getUserDoc={this.getUserDoc}
                     profile={this.state.profile}
+                    notification={this.notification}
                     db={db}/>}></Route>
                 </Routes>
             </BrowserRouter>

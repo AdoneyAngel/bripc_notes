@@ -47,12 +47,15 @@ export default class SignUp extends React.Component{
     checkSignUp = async (userName, userMail) => {
         const users = await this.props.getBripcNotesUsers()
 
+        userName = userName.trim()
+        userMail = userMail.trim().toLowerCase()
+
         if(users.length < 1){
             return true
         }
 
-        const userNameFound = users.filter(user => user.data().profile.name == userName).length > 0
-        const userMailFound = users.filter(user => user.data().profile.mail == userMail).length > 0
+        const userNameFound = users.filter(user => user.data().profile.name.trim() == userName).length > 0
+        const userMailFound = users.filter(user => user.data().profile.mail.trim().toLowerCase() == userMail).length > 0
 
         if(userNameFound){
             return 1

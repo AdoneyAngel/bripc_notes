@@ -1,9 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 
 import tagBackgroundIcon from "../tagBackground.png"
 import tagIcon from "../tag.png"
+import ThreePoints from "../points.png"
+import NoteSettings from "./NoteSettings";
 
 export default function NotesTable(props){
+    const [openSettings, setOpenSettings] = useState(false)
+
+    let settingsButtons = (noteToSettings) => {
+        return [
+            {
+                name: "Delete",
+                click: () => {
+                    props.deleteNote(noteToSettings.title)
+                    setOpenSettings(false)
+                }
+            }
+        ]
+    }
 
     return (
         <div className="tasksTable">
@@ -16,9 +31,14 @@ export default function NotesTable(props){
                 props.notes.map(note => {
                     return (
                         <div key={note.title}>
+                            {
+                                openSettings && props.noteSel.title == note.title ? <NoteSettings buttons={settingsButtons(note)} /> : null
+                            }
+                            
                             <section>
                                 <header>
                                     <h1>{note.title}</h1>
+                                    <img onClick={() => {setOpenSettings(!openSettings); props.setNoteSel(note);}} src={ThreePoints} alt="" />
                                 </header>
                                 
                                 <section>

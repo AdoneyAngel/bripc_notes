@@ -1,7 +1,7 @@
 .superiorMainBar{
     position: absolute;
     top: 0;
-    z-index: 5;
+    z-index: 7;
     height: 50px;
     background-color: white;
     width: 100%;
