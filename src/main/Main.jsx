@@ -199,7 +199,7 @@ export default class Main extends React.Component{
                     <Routes>
                         <Route path="/" element={<NotesTable deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={this.state.profile.notes.list}/>}></Route>
                         {this.state.profile.notes.tags.length > 0 ? this.state.profile.notes.tags.map(tag => {
-                            return <Route  path={tag} element={<NotesTable deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel} openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel}
+                            return <Route key={tag} path={tag} element={<NotesTable deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel} openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel}
                                  notes={this.state.profile.notes.list.filter(note => note.tag == this.state.tagSel)}/>}></Route>
                             }) : null}
                     </Routes>
