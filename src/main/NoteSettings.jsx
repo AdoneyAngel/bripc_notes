@@ -6,7 +6,7 @@ export default function NoteSettings(props){
             {
                 props.buttons.map(button => {
                     return (
-                        <p key={button.title} onClick={() => button.click()}>{button.name}</p>
+                        <p key={button.name} onClick={() => button.click()}>{button.name}</p>
                     )
                 })
             }
