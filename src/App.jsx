@@ -108,7 +108,7 @@ export default class App extends React.Component{
 
             const users = result
 
-            let login = users.filter(user => user.data().profile.mail == userMail && user.data().profile.pass == pass).length == 1
+            let login = users.filter(user => user.data().profile.mail.toLowerCase() == userMail && user.data().profile.pass == pass).length == 1
 
             if(login){
                 let userName = users.filter(user => user.data().profile.mail.toLowerCase() == userMail && user.data().profile.pass == pass)[0].data().profile.name
@@ -118,6 +118,8 @@ export default class App extends React.Component{
                 window.location = "/main"
             }else{
                 this.notification('The user mail or password is not valid')
+                console.log(users.map(user => user.data()))
+                console.log("LOG: " + userMail + " " + pass)
             }
         })
     }
