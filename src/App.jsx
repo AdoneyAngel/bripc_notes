@@ -94,7 +94,7 @@ export default class App extends React.Component{
 
     signIn = async (userMail, pass) => {
 
-        userMail = userMail.trim().toLowerCase()
+        const userMailLower = userMail.trim().toLowerCase()
 
         this.setState({
             loading: true
@@ -108,14 +108,16 @@ export default class App extends React.Component{
 
             const users = result
 
-            let login = users.filter(user => user.data().profile.mail.toLowerCase() == userMail && user.data().profile.pass == pass).length == 1
+            let login = users.filter(user => user.data().profile.mail.toLowerCase() == userMailLower && user.data().profile.pass == pass).length == 1
 
             if(login){
-                let userName = users.filter(user => user.data().profile.mail.toLowerCase() == userMail && user.data().profile.pass == pass)[0].data().profile.name
+                let userName = users.filter(user => user.data().profile.mail.toLowerCase() == userMailLower && user.data().profile.pass == pass)[0].data().profile.name
 
                 this.saveUser(userName, userMail)
 
                 window.location = "/main"
+
+                console.log(userMail)
             }else{
                 this.notification('The user mail or password is not valid')
             }
@@ -151,9 +153,13 @@ export default class App extends React.Component{
     getUserDoc = async () => {
         const users = await  this.getBripcNotesUsers()
 
-        const user = users.filter(user => user.name == this.state.username && user.mail == this.state.userMail)[0]
+        const userName = this.getCookie('userName')
+        const userMail = this.getCookie('userMail')
+
+        const user = users.filter(user => user.data().profile.name == userName && user.data().profile.mail == userMail)[0]
 
         return user.id
+
     }
 
     render(){
