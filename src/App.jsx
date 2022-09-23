@@ -118,8 +118,6 @@ export default class App extends React.Component{
                 window.location = "/main"
             }else{
                 this.notification('The user mail or password is not valid')
-                console.log(users.map(user => user.data()))
-                console.log("LOG: " + userMail + " " + pass)
             }
         })
     }
