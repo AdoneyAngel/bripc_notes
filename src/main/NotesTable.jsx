@@ -29,15 +29,6 @@ export default function NotesTable(props){
                 }
             </header>
             {
-                props.notes.length < 1 ? () => () => {
-                    return <div>
-                        <section>
-                            <h1>Nothing to see</h1>
-                        </section>
-                    </div>
-                } : null
-            }
-            {
 
                 props.notes.map(note => {
 
@@ -95,7 +86,23 @@ export default function NotesTable(props){
                         </div>
                     )
                 })
+            } 
+            {
+                props.notes.length < 1 ? <div style={{
+                    height: "100px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+
+                }}>
+                        <h1 style={{
+                            color: "grey",
+                            cursor: "default"
+                        }}>NOTHING TO SEE</h1>
+                    </div>
+                 : null              
             }
+
         </div>
     )
 }
