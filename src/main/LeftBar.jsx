@@ -24,7 +24,8 @@ export default function LeftBar(props){
                 position: "absolute",
                 bottom: "0",
                 marginLeft: "90%",
-                transform: "translate(-100% ,-300%)"
+                transform: "translate(-100% ,-300%)",
+                boxShadow: "#0000002b 0px 0px 12px 3px"
             }}/>
         </div>
     )
