@@ -61,6 +61,7 @@ export default class Main extends React.Component{
     }
 
     createNote = async () => {
+        this.props.setLoadingDisplay()
 
         if(this.state.writingCreateNote.title.length < 1 && this.state.writingCreateNote.content.length < 1){
             return false
@@ -91,6 +92,8 @@ export default class Main extends React.Component{
         }
 
         await setDoc(doc(this.props.db, "users", userDoc), create)
+
+        this.props.stopLoadingDisplay()
 
         this.setState({
             openCreateNoteDisplay: false,
@@ -123,9 +126,13 @@ export default class Main extends React.Component{
         const userDoc = await this.props.getUserDoc()
 
         await setDoc(doc(this.props.db, "users", userDoc), profile)
+
+        window.location = "/main"
     }
 
     createTag = async (newTag) => {
+        this.props.setLoadingDisplay()
+
         let profile = this.state.profile
 
         profile.notes.tags.map(tag => {
@@ -154,6 +161,8 @@ export default class Main extends React.Component{
         const userDoc = await this.props.getUserDoc()
 
         await setDoc(doc(this.props.db, "users", userDoc), profile)
+
+        this.props.stopLoadingDisplay()
 
         this.openCreateTagDisplay()
     }
@@ -202,6 +211,8 @@ export default class Main extends React.Component{
     }
 
     setTagSel = (tag) => {
+        if(this.state.profile.notes.tags.indexOf(tag) < 0 && tag != "/") return false
+
         this.props.setCookie("tagSel", tag)
         this.setState({
             tagSel: tag

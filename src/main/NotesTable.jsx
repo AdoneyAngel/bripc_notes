@@ -29,6 +29,16 @@ export default function NotesTable(props){
                 }
             </header>
             {
+                props.notes.length < 1 ? () => () => {
+                    return <div>
+                        <section>
+                            <h1>Nothing to see</h1>
+                        </section>
+                    </div>
+                } : null
+            }
+            {
+
                 props.notes.map(note => {
 
                     note.tag = props.profileTags.indexOf(note.tag) > -1 ? note.tag : ""

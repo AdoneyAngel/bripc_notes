@@ -12,7 +12,6 @@ export default function CreateNoteDisplay(props){
             <div className="createNoteDisplay">
                 <form onSubmit={(e) => {
                     e.preventDefault()
-                    props.createNote()
                 }}>
                     <section>
 
@@ -55,7 +54,9 @@ export default function CreateNoteDisplay(props){
                             }
                         </section>
                     </div>
-                    <button>Create</button>
+                    <button onClick={() => {
+                        props.createNote()
+                    }}>Create</button>
                 </form>
             </div>
         )

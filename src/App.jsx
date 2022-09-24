@@ -163,7 +163,10 @@ export default class App extends React.Component{
     }
 
     setBodyClick = (click) => {
-        document.onclick = () => {click(); return false}
+        document.onclick = () => {
+            click()
+            return false
+        }
     }
 
     componentDidMount(){
@@ -196,6 +199,8 @@ export default class App extends React.Component{
                     profile={this.state.profile}
                     notification={this.notification}
                     db={db}
+                    setLoadingDisplay={this.setLoadingDisplay}
+                    stopLoadingDisplay={this.stopLoadingDisplay}
                     setBodyClick={this.setBodyClick}/>}></Route>
                 </Routes>
             </BrowserRouter>
