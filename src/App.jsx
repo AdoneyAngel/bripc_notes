@@ -162,6 +162,10 @@ export default class App extends React.Component{
 
     }
 
+    setBodyClick = (click) => {
+        document.onclick = () => {click(); return false}
+    }
+
     componentDidMount(){
         document.oncontextmenu = () => {return false}
     }
@@ -191,7 +195,8 @@ export default class App extends React.Component{
                     getUserDoc={this.getUserDoc}
                     profile={this.state.profile}
                     notification={this.notification}
-                    db={db}/>}></Route>
+                    db={db}
+                    setBodyClick={this.setBodyClick}/>}></Route>
                 </Routes>
             </BrowserRouter>
         )

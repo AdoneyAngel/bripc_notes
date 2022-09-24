@@ -9,9 +9,7 @@ export default function TagsList(props){
     const [tagSettings, setTagSettings] = useState(false)
     const clickDer = (tag) => {
 
-        if(tagSettings){
-            document.body.onclick = ()=>{setTagSettings(false);return false;}
-        }
+        props.setBodyClick(()=>{setTagSettings(false)})
 
         setTagSettings(!tagSettings)
         setTagSel(tag)
@@ -36,7 +34,7 @@ export default function TagsList(props){
                             {tag}
                             {
                                 tagSel === tag && tagSettings ?
-                                <div className="tagSettings">
+                                <div onClick={()=>setTagSettings(false)} className="tagSettings">
                                     <ButtonList buttons={buttonTagList} />
                                 </div> : null                         
                             }

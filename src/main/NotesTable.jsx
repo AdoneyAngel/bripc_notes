@@ -6,6 +6,7 @@ import ThreePoints from "../points.png"
 import NoteSettings from "./NoteSettings";
 
 export default function NotesTable(props){
+    const [noteSettingsStyles, setNoteSettingsStyles] = useState({})
     const [openSettings, setOpenSettings] = useState(false)
 
     let settingsButtons = (noteToSettings) => {
@@ -33,9 +34,32 @@ export default function NotesTable(props){
                     note.tag = props.profileTags.indexOf(note.tag) > -1 ? note.tag : ""
 
                     return (
-                        <div key={note.title}>
+                        <div onMouseUp={(e) => {
+                            if(e.button === 2){
+                                setOpenSettings(!openSettings) 
+                                props.setNoteSel(note)
+
+                                props.setBodyClick(() => {
+                                    setOpenSettings(false)
+                                })
+
+                                setNoteSettingsStyles({
+                                    left: e.clientX,
+                                    top: e.clientY,
+                                    right: 'auto',
+                                    position: 'fixed',
+                                    animationName: "openNoteSettingsContextMenuAni"
+                                })
+                            }else{
+                                setNoteSettingsStyles({
+                                    right: '80px',
+                                    position: 'absolute',
+                                    animationName: "openNoteSettingsAni"
+                                })
+                            }
+                        }} key={note.title}>
                             {
-                                openSettings && props.noteSel.title == note.title ? <NoteSettings buttons={settingsButtons(note)} /> : null
+                                openSettings && props.noteSel.title == note.title ? <NoteSettings styles={noteSettingsStyles} buttons={settingsButtons(note)} /> : null
                             }
                             
                             <section>

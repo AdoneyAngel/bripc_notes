@@ -2,7 +2,7 @@ import React from "react";
 
 export default function NoteSettings(props){
     return (
-        <div className="noteSettings">
+        <div style={props.styles} className="noteSettings">
             {
                 props.buttons.map(button => {
                     return (
