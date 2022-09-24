@@ -10,8 +10,6 @@ export default function SetNoteTagDisplay(props){
         <div className="setNoteTagDisplay">
             <form onSubmit={(e) => {
                 e.preventDefault()
-
-                props.setNoteTag(props.noteTitle, tagSel)
             }}>
                 <section>
 
@@ -35,7 +33,9 @@ export default function SetNoteTagDisplay(props){
 
                 </section>
 
-                <button>Set</button>
+                <button onClick={() => {
+                    props.setNoteTag(props.noteTitle, tagSel)
+                }}>Set</button>
             </form>
         </div>
     )
