@@ -4,6 +4,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 7;
+    z-index: 10;
     background: rgb(103 162 225 / 42%);
 }

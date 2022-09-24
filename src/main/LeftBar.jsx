@@ -18,7 +18,7 @@ export default function LeftBar(props){
                 <img src={homeIcon} alt="" />
                 <p>HOME</p>
             </Link>
-            <ListFolder icon={tagIcon} name="My tags" list={<TagsList setTagSel={props.setTagSel} tags={props.tags}/> }/>
+            <ListFolder icon={tagIcon} name="My tags" list={<TagsList deleteTag={props.deleteTag} setTagSel={props.setTagSel} tags={props.tags}/> }/>
 
             <ActionButton click={() => props.openCreateTagDisplay()} type='image' image={plusIcon} styles={{
                 position: "absolute",

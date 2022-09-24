@@ -1,6 +1,6 @@
 .createTagDisplay{
     position: absolute;
-    z-index: 8;
+    z-index: var(--windows-z-index);
     display: block;
     top: var(--windows-top);
     left: 50%;
@@ -8,6 +8,7 @@
     background: white;
     padding: var(--windows-padding);
     border-radius: var(--windows-border-radius);
+    animation: openCreateTagDisplayAni var(--windows-animation);
 }
 .createTagDisplay > input{
     border: none;

@@ -113,14 +113,30 @@ export default class Main extends React.Component{
         
     }
 
+    deleteTag = async (tagToDelete) => {
+        let profile = this.state.profile
+
+        let newTagList = profile.notes.tags.filter(tag => tag != tagToDelete)
+
+        profile.notes.tags = newTagList
+
+        const userDoc = await this.props.getUserDoc()
+
+        await setDoc(doc(this.props.db, "users", userDoc), profile)
+    }
+
     createTag = async (newTag) => {
         let profile = this.state.profile
 
-        if(profile.notes.tags.indexOf(newTag) > -1){
-            this.props.notification("A tag with that name already exists")
+        profile.notes.tags.map(tag => {
+            if(tag.toLowerCase() == newTag.toLowerCase()){
+                this.props.notification("A tag with that name already exists")
 
-            return false
-        }else if(newTag.length <= 2){
+                return false
+            }
+        })
+        
+        if(newTag.length <= 2){
             this.props.notification("The tag name must be more than 2 characteres")
 
             return false
@@ -234,13 +250,13 @@ export default class Main extends React.Component{
                     this.state.openUnFocusMainDisplay ? <UnFocusMainDisplay click={this.state.UnFocusMainDisplayClick} /> : null
                 }
                 <SuperiorMainBar openCreateNoteDisplay={this.openCreateNoteDisplay}/> 
-                <LeftBar openCreateTagDisplay={this.openCreateTagDisplay} setTagSel={this.setTagSel} task={this.state.writingCreateNote.task} tags={this.state.profile.notes.tags}/> 
+                <LeftBar deleteTag={this.deleteTag} openCreateTagDisplay={this.openCreateTagDisplay} setTagSel={this.setTagSel} task={this.state.writingCreateNote.task} tags={this.state.profile.notes.tags}/> 
                 <div className="notesListBox">
 
                     <Routes>
-                        <Route path="/" element={<NotesTable deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={this.state.profile.notes.list}/>}></Route>
+                        <Route path="/" element={<NotesTable profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={this.state.profile.notes.list}/>}></Route>
                         {this.state.profile.notes.tags.length > 0 ? this.state.profile.notes.tags.map(tag => {
-                            return <Route key={tag} path={tag} element={<NotesTable deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel} openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel}
+                            return <Route key={tag} path={tag} element={<NotesTable profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel} openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel}
                                  notes={this.state.profile.notes.list.filter(note => note.tag == this.state.tagSel)}/>}></Route>
                             }) : null}
                     </Routes>

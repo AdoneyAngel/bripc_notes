@@ -29,6 +29,9 @@ export default function NotesTable(props){
             </header>
             {
                 props.notes.map(note => {
+
+                    note.tag = props.profileTags.indexOf(note.tag) > -1 ? note.tag : ""
+
                     return (
                         <div key={note.title}>
                             {

@@ -7,6 +7,9 @@
     --windows-top: 20%;
     --windows-padding: 15px;
     --windows-border-radius: 5px;
+    --windows-z-index: 11;
+    --windows-animation: 0.1s ease-out;
+    --color-red: #ff3e00;
 }
 *{
     margin: 0;
@@ -24,6 +27,9 @@
 *::-webkit-scrollbar-thumb{
     background-color: rgb(197, 197, 197);
     border-radius: 2px;
+}
+button{
+    user-select: none;
 }
 body{
     background: var(--app-background);

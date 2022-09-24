@@ -162,6 +162,10 @@ export default class App extends React.Component{
 
     }
 
+    componentDidMount(){
+        document.oncontextmenu = () => {return false}
+    }
+
     render(){
         return (
             <BrowserRouter>

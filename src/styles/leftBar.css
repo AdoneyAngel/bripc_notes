@@ -6,7 +6,8 @@
     height: 100vh;
     width: 250px;
     padding-top: 40px;
-    font-size: 13px
+    font-size: 13px;
+    z-index: 7;
 }
 .leftBar > .homeLink, .tagLink, .tagsListFolder{
     display: block;
@@ -16,6 +17,8 @@
 .tagLink{
     color: var(--medium-black);
     margin-bottom: 17px;
+    display: flex;
+    align-items: center;
 }
 .homeLink{
     font-weight: bold;
@@ -53,4 +56,32 @@
 .leftBar > .tagsListFolder > section{
     margin-left: 10px;
     font-size: 1.2em;
+}
+.tagSettings{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: -10px;
+    transform: translateX(100%);
+    background: white;
+    width: 100px;
+    z-index: 8;
+    border-radius: var(--windows-border-radius);
+    padding: 8px 0;
+    box-shadow: 0px 0px 12px 0px #d9d9d9;
+    cursor: default;
+    animation: openTagSettings var(--windows-animation);
+}
+.tagSettings > div{
+    width: 100%;
+}
+.tagSettings > div > button{
+    background: transparent;
+    border: none;
+    width: 100%;
+    display: block;
+    padding: 4px;
+}
+.tagSettings > div > button:hover{
+    filter: brightness(0.9);
 }
