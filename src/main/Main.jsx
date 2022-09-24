@@ -11,6 +11,7 @@ import SuperiorMainBar from "./SuperiorMainBar";
 import CreateNoteDisplay from "./CreateNoteDisplay";
 import SetNoteTagDisplay from "./SetNoteTagDisplay";
 import UnFocusMainDisplay from "./UnFocusMainDisplay";
+import CreateTagDisplay from "./CreateTagDisplay";
 
 export default class Main extends React.Component{
 
@@ -112,6 +113,35 @@ export default class Main extends React.Component{
         
     }
 
+    createTag = async (newTag) => {
+        let profile = this.state.profile
+
+        if(profile.notes.tags.indexOf(newTag) > -1){
+            this.props.notification("A tag with that name already exists")
+
+            return false
+        }else if(newTag.length <= 2){
+            this.props.notification("The tag name must be more than 2 characteres")
+
+            return false
+        }else if(newTag.indexOf(" ") > -1){
+            this.props.notification("The tag name mustn`t have empty space")
+
+            return false
+        }
+        
+        let newTagList = profile.notes.tags
+        newTagList.push(newTag)
+
+        profile.notes.tags = newTagList
+
+        const userDoc = await this.props.getUserDoc()
+
+        await setDoc(doc(this.props.db, "users", userDoc), profile)
+
+        this.openCreateTagDisplay()
+    }
+
     openCreateNoteDisplay = () => {
         this.setState({
             openCreateNoteDisplay: !this.state.openCreateNoteDisplay,
@@ -125,6 +155,14 @@ export default class Main extends React.Component{
             openSetNoteTagDisplay: !this.state.openSetNoteTagDisplay,
             openUnFocusMainDisplay: !this.state.openUnFocusMainDisplay,
             UnFocusMainDisplayClick: this.openSetNoteTagDisplay
+        })
+    }
+
+    openCreateTagDisplay = () => {
+        this.setState({
+            openCreateTagDisplay: !this.state.openCreateTagDisplay,
+            openUnFocusMainDisplay: !this.state.openUnFocusMainDisplay,
+            UnFocusMainDisplayClick: this.openCreateTagDisplay
         })
     }
 
@@ -184,6 +222,9 @@ export default class Main extends React.Component{
         return (
             <div className="main">
                 {
+                    this.state.openCreateTagDisplay ? <CreateTagDisplay createTag={this.createTag} /> : null
+                }
+                {
                     this.state.openSetNoteTagDisplay ? <SetNoteTagDisplay openSetNoteTagDisplay={this.openSetNoteTagDisplay} noteTitle={this.state.noteSel.title} setNoteTag={this.setNoteTag} tagSelected={this.state.noteSel.tag} tags={this.state.profile.notes.tags} /> :null
                 }
                 {
@@ -193,7 +234,7 @@ export default class Main extends React.Component{
                     this.state.openUnFocusMainDisplay ? <UnFocusMainDisplay click={this.state.UnFocusMainDisplayClick} /> : null
                 }
                 <SuperiorMainBar openCreateNoteDisplay={this.openCreateNoteDisplay}/> 
-                <LeftBar setTagSel={this.setTagSel} task={this.state.writingCreateNote.task} tags={this.state.profile.notes.tags}/> 
+                <LeftBar openCreateTagDisplay={this.openCreateTagDisplay} setTagSel={this.setTagSel} task={this.state.writingCreateNote.task} tags={this.state.profile.notes.tags}/> 
                 <div className="notesListBox">
 
                     <Routes>

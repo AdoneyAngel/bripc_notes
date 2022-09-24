@@ -1,0 +1,18 @@
+.createTagDisplay{
+    position: absolute;
+    z-index: 8;
+    display: block;
+    top: var(--windows-top);
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: var(--windows-padding);
+    border-radius: var(--windows-border-radius);
+}
+.createTagDisplay > input{
+    border: none;
+    height: 25px;
+    font-size: 1em;
+    padding: 5px;
+    border-radius: var(--windows-border-radius);
+}

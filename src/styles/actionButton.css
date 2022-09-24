@@ -1,0 +1,21 @@
+.actionButton{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    background: var(--secondary-color);
+    padding: 5px;
+    border-radius: 9px;
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+.actionButton > img{
+    width: 85%;
+    filter: invert(1);
+}
+.actionButton:hover{
+    filter: brightness(0.9);
+}
