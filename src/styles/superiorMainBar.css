@@ -19,7 +19,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    cursor: default;
+}
+.superiorMainBar > button:hover{
+    filter: brightness(0.9);
 }
 .superiorMainBar > button > img{
     width: 60%;

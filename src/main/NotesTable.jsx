@@ -131,12 +131,14 @@ export default function NotesTable(props){
                     height: "100px",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    background: "white"
 
                 }}>
                         <h1 style={{
                             color: "grey",
-                            cursor: "default"
+                            cursor: "default",
+                            userSelect: "none"
                         }}>NOTHING TO SEE</h1>
                     </div>
                  : null              
