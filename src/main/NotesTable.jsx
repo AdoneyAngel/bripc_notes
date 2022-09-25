@@ -100,7 +100,7 @@ export default function NotesTable(props){
                                 </header>
                                 
                                 <section>
-                                    <p>{note.content}</p>
+                                    <textarea value={note.content} disabled></textarea>
                                 </section>
 
                                 <div className="underGroup">
