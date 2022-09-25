@@ -10,8 +10,16 @@ import TagsList from "./TagsList";
 import ListFolder from "./ListFolder"
 import ActionButton from "../components/ActionButton"
 import plusIcon from "../plus.png"
+import bookMarkIcon from "../bookmark.png"
 
 export default function LeftBar(props){
+
+    const myTaskFolderLinks = [
+        "All",
+        "Done",
+        "Not_done"
+    ]
+
     return (
         <div className="leftBar">
             <Link onClick={() => props.setTagSel("/")} className="homeLink" to="/main">
@@ -19,6 +27,7 @@ export default function LeftBar(props){
                 <p>HOME</p>
             </Link>
             <ListFolder icon={tagIcon} name="My tags" list={<TagsList setBodyClick={props.setBodyClick} deleteTag={props.deleteTag} setTagSel={props.setTagSel} tags={props.tags}/> }/>
+            <ListFolder icon={bookMarkIcon} name="My tasks" list={<TagsList setBodyClick={props.setBodyClick} deleteTag={props.deleteTag} setTagSel={props.setTagSel} tags={myTaskFolderLinks}/> }/>
 
             <ActionButton click={() => props.openCreateTagDisplay()} type='image' image={plusIcon} styles={{
                 position: "absolute",

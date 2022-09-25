@@ -49,7 +49,7 @@ export default function NotesTable(props){
         <div className="tasksTable">
             <header className="headerNotesTable">
                 {
-                    props.tag == "/" ? "Home" : props.tag
+                    props.tag == "/" ? "Home" : props.tag.replace("_", " ")
                 }
             </header>
             {

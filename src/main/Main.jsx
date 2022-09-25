@@ -131,7 +131,14 @@ export default class Main extends React.Component{
     }
 
     createTag = async (newTag) => {
-        this.props.setLoadingDisplay()
+
+        const invalidsNewTags = [
+            "all",
+            "done",
+            "not_done",
+            "not done",
+            "notdone"
+        ]
 
         let profile = this.state.profile
 
@@ -151,7 +158,13 @@ export default class Main extends React.Component{
             this.props.notification("The tag name mustn`t have empty space")
 
             return false
+        }else if(invalidsNewTags.indexOf(newTag.toLocaleLowerCase()) > -1){
+            this.props.notification("The tag name isn't valid")
+
+            return false
         }
+
+        this.props.setLoadingDisplay()
         
         let newTagList = profile.notes.tags
         newTagList.push(newTag)
@@ -211,7 +224,7 @@ export default class Main extends React.Component{
     }
 
     setTagSel = (tag) => {
-        if(this.state.profile.notes.tags.indexOf(tag) < 0 && tag != "/") return false
+        if(this.state.profile.notes.tags.indexOf(tag) < 0 && tag != "/" && !["Alltasks", "DoneTasks", "notDoneTasks"].indexOf(tag)) return false
 
         this.props.setCookie("tagSel", tag)
         this.setState({
@@ -261,6 +274,13 @@ export default class Main extends React.Component{
 
     render(){
         document.body.onclick = () => {}
+
+        let allTasks = {
+            all: this.state.profile.notes.list.filter(note => note.task),
+            done: this.state.profile.notes.list.filter(note => note.task && note.done),
+            notDone: this.state.profile.notes.list.filter(note => note.task && !note.done)
+        }
+        
         return (
             <div className="main">
                 {
@@ -285,6 +305,14 @@ export default class Main extends React.Component{
                             return <Route key={tag} path={tag} element={<NotesTable changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel} openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel}
                                  notes={this.state.profile.notes.list.filter(note => note.tag == this.state.tagSel)}/>}></Route>
                             }) : null}
+
+                        {
+                            //Tasks Links
+                        }
+                        <Route path="AllTasks" element={<NotesTable changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.all}/>}></Route>
+                        <Route path="DoneTasks" element={<NotesTable changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.done}/>}></Route>
+                        <Route path="NotDoneTasks" element={<NotesTable changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.notDone}/>}></Route>
+                        
                     </Routes>
 
                 </div>

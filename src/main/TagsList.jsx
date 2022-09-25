@@ -30,8 +30,10 @@ export default function TagsList(props){
                     ]
 
                     return (
-                        <Link onContextMenu={()=>clickDer(tag)} onClick={() => props.setTagSel(tag)} key={tag} className="tagLink" rel="stylesheet" to={tag}>
-                            {tag}
+                        <Link onContextMenu={()=>clickDer(tag)} onClick={() => props.setTagSel(tag)} key={tag} className="tagLink" rel="stylesheet" to={
+                            tag === "All" ? "AllTasks" : tag === "Done" ? "DoneTasks" : tag === "Not_done" ? "NotDoneTasks" : tag
+                        }>
+                            {tag.replace("_", " ")}
                             {
                                 tagSel === tag && tagSettings ?
                                 <div onClick={()=>setTagSettings(false)} className="tagSettings">
