@@ -21,6 +21,13 @@ export default function NotesTable(props){
                     setOpenSettings(false)
                 },
                 backgroundHover: "red"
+            },
+            {
+                name: "Change tag",
+                click: () => {
+                    props.openSetNoteTagDisplay()
+                    props.setNoteSel(noteToSettings)
+                }
             }
         ]
 
