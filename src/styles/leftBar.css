@@ -16,9 +16,12 @@
 }
 .tagLink{
     color: var(--medium-black);
-    margin-bottom: 17px;
     display: flex;
     align-items: center;
+    padding: 10px 0;
+}
+.tagLink:hover{
+    transform: translateX(2%);
 }
 .homeLink{
     font-weight: bold;
