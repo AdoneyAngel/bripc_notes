@@ -9,9 +9,12 @@ export default function TagsList(props){
     const [tagSettings, setTagSettings] = useState(false)
     const clickDer = (tag) => {
 
+        if(props.tagSettings){
+            setTagSettings(!tagSettings)
+        }
+
         props.setBodyClick(()=>{setTagSettings(false)})
 
-        setTagSettings(!tagSettings)
         setTagSel(tag)
     }
 
