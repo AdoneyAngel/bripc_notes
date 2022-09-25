@@ -19,7 +19,7 @@
     grid-column-end: 3;
     font-size: 1.7em;
     font-weight: bold;
-    padding-left: 25px;
+    padding-left: 65px;
     padding-top: 25px;
     padding-bottom: 25px;
     position: sticky;
@@ -27,7 +27,7 @@
     left: 0;
     z-index: 6;
     background: linear-gradient(180deg, var(--app-background) 70%, transparent);
-    margin-left: -5px;
+    margin-left: -40px;
     width: 120%;
 }
 .tasksTable > div{
