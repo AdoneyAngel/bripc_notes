@@ -245,6 +245,20 @@ export default class Main extends React.Component{
         this.openSetNoteTagDisplay()
     }
 
+    changeDoneTask = async (task) => {
+        let profile = this.state.profile
+
+        profile.notes.list.map(note => {
+            if(note.title == task.title){
+                note.done = !note.done
+            }
+        })
+
+        const userDoc = await this.props.getUserDoc()
+
+        await setDoc(doc(this.props.db, "users", userDoc), profile)
+    }
+
     render(){
         document.body.onclick = () => {}
         return (
@@ -266,9 +280,9 @@ export default class Main extends React.Component{
                 <div className="notesListBox">
 
                     <Routes>
-                        <Route path="/" element={<NotesTable setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={this.state.profile.notes.list}/>}></Route>
+                        <Route path="/" element={<NotesTable changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={this.state.profile.notes.list}/>}></Route>
                         {this.state.profile.notes.tags.length > 0 ? this.state.profile.notes.tags.map(tag => {
-                            return <Route key={tag} path={tag} element={<NotesTable setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel} openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel}
+                            return <Route key={tag} path={tag} element={<NotesTable changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel} openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel}
                                  notes={this.state.profile.notes.list.filter(note => note.tag == this.state.tagSel)}/>}></Route>
                             }) : null}
                     </Routes>

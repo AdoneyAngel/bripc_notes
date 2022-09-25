@@ -10,6 +10,7 @@
     --windows-z-index: 11;
     --windows-animation: 0.1s ease-out;
     --color-red: #ff3e00;
+    --task-done: #acffac;
 }
 *{
     margin: 0;

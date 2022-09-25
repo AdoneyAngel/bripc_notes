@@ -4,21 +4,38 @@ import tagBackgroundIcon from "../tagBackground.png"
 import tagIcon from "../tag.png"
 import ThreePoints from "../points.png"
 import NoteSettings from "./NoteSettings";
+import bookMarkIco from "../bookmark.png"
+import checkIcon from "../check.png"
 
 export default function NotesTable(props){
     const [noteSettingsStyles, setNoteSettingsStyles] = useState({})
     const [openSettings, setOpenSettings] = useState(false)
 
     let settingsButtons = (noteToSettings) => {
-        return [
+
+        let buttons = [
             {
                 name: "Delete",
                 click: () => {
                     props.deleteNote(noteToSettings.title)
                     setOpenSettings(false)
-                }
+                },
+                backgroundHover: "red"
             }
         ]
+
+        if(noteToSettings.task){
+            buttons.push(
+                {
+                    name: noteToSettings.task && !noteToSettings.done ? "Mark as done" : noteToSettings.task && noteToSettings.done ? "Unmark as done" : "",
+                    click: () => {
+                        props.changeDoneTask(noteToSettings)
+                    }
+                }
+            )
+        }
+
+        return buttons.reverse()
     }
 
     return (
@@ -35,7 +52,10 @@ export default function NotesTable(props){
                     note.tag = props.profileTags.indexOf(note.tag) > -1 ? note.tag : ""
 
                     return (
-                        <div onMouseUp={(e) => {
+                        <div style={{
+                            "--note-background": note.task && note.done ? "var(--task-done)" : "white",
+                            backgroundImage: "url(../bookmark.png)"
+                        }} onMouseUp={(e) => {
                             if(e.button === 2){
                                 setOpenSettings(!openSettings) 
                                 props.setNoteSel(note)
@@ -62,6 +82,9 @@ export default function NotesTable(props){
                             {
                                 openSettings && props.noteSel.title == note.title ? <NoteSettings styles={noteSettingsStyles} buttons={settingsButtons(note)} /> : null
                             }
+                            {
+                                note.task ? <img src={bookMarkIco} alt="" /> : null
+                            }
                             
                             <section>
                                 <header>
@@ -73,12 +96,21 @@ export default function NotesTable(props){
                                     <p>{note.content}</p>
                                 </section>
 
-                                <div onClick={() => {
+                                <div className="underGroup">
+                                    <img onClick={() => {
                                     props.openSetNoteTagDisplay()
                                     props.setNoteSel(note)
-                                }} className="underGroup">
-                                    <img src={note.tag ? tagBackgroundIcon : tagIcon} alt="" />
-                                    <p>{note.tag}</p>
+                                }} src={note.tag ? tagBackgroundIcon : tagIcon} alt="" />
+                                
+                                    <p  onClick={() => {
+                                    props.openSetNoteTagDisplay()
+                                    props.setNoteSel(note)
+                                }} >{note.tag}</p>
+                                    
+                                    {
+                                        note.task && note.done ? <img className="checkIconTask" src={checkIcon} /> : null
+                                    }
+                                    
                                 </div>
 
 

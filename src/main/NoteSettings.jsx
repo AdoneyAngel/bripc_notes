@@ -6,7 +6,11 @@ export default function NoteSettings(props){
             {
                 props.buttons.map(button => {
                     return (
-                        <p key={button.name} onClick={() => button.click()}>{button.name}</p>
+                        <p onMouseEnter={button.backgroundHover ? (e) => {
+                            e.target.style.background = button.backgroundHover
+                        } : ()=>{}} onMouseLeave={(e) => {
+                            e.target.style.background = "white"
+                        }} style={button.styles ? button.styles : {}} key={button.name} onClick={() => button.click()}>{button.name}</p>
                     )
                 })
             }
