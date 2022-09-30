@@ -5,7 +5,7 @@ export default function ActionButton(props){
     return (
         <button onClick={() => props.click()} style={props.styles} className={"actionButton " + props.class}>
             {
-                props.type === "image" ? <img src={props.image}/> : props.value
+                props.type === "image" ? <img title={props.value} src={props.image}/> : props.value
             }
         </button>
     )
