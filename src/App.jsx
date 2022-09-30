@@ -116,8 +116,6 @@ export default class App extends React.Component{
                 this.saveUser(userName, userMail.trim())
 
                 window.location = "/main"
-
-                console.log(userMail)
             }else{
                 this.notification('The user mail or password is not valid')
             }
