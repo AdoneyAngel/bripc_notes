@@ -270,7 +270,11 @@ export default class Main extends React.Component{
 
         const userDoc = await this.props.getUserDoc()
 
+        this.addNoteLoading(task.title)
+
         await setDoc(doc(this.props.db, "users", userDoc), profile)
+
+        this.deleteNoteLoading(task.title)
     }
 
     changeAsTask = async (noteToChange, value) => {
