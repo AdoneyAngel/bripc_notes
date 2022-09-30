@@ -87,7 +87,7 @@ export default class App extends React.Component{
         }
         await addDoc(collection(db, 'users'), newDoc)
         
-        this.saveUser(name, mail)
+        this.saveUser(name, mail.trim())
 
         window.location = "/main"
     }
@@ -113,7 +113,7 @@ export default class App extends React.Component{
             if(login){
                 let userName = users.filter(user => user.data().profile.mail.toLowerCase() == userMailLower && user.data().profile.pass == pass)[0].data().profile.name
 
-                this.saveUser(userName, userMail)
+                this.saveUser(userName, userMail.trim())
 
                 window.location = "/main"
 
