@@ -28,6 +28,12 @@ export default function NotesTable(props){
                     props.openSetNoteTagDisplay()
                     props.setNoteSel(noteToSettings)
                 }
+            },
+            {
+                name: noteToSettings.task ? "Change as note" : "Change as task",
+                click: () => {
+                    props.changeAsTask(noteToSettings, !noteToSettings.task)
+                }
             }
         ]
 
