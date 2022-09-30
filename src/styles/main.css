@@ -94,6 +94,13 @@
     height: 400px;
     position: relative;
 }
+.tasksTable > div > section > .underGroup > .updatingIcon{
+    filter: opacity(0.5);
+    width: 27px;
+    animation: updatingIconAni 1.8s ease-in-out infinite;
+    right: 50px;
+    position: absolute;
+}
 .tasksTable > div > section > section::-webkit-scrollbar{
     background: var(--app-background);
     border-radius: 2px;
@@ -197,5 +204,16 @@
     100%{
         opacity: 1;
         transform: scale(1);
+    }
+}
+@keyframes updatingIconAni {
+    0%{
+        filter: opacity(0.5)
+    }
+    50%{
+        filter: opacity(0.2)
+    }
+    100%{
+        filter: opacity(0.5)
     }
 }

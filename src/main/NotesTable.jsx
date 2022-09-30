@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 
-import tagBackgroundIcon from "../tagBackground.png"
-import tagIcon from "../tag.png"
-import ThreePoints from "../points.png"
-import NoteSettings from "./NoteSettings";
-import bookMarkIco from "../bookmark.png"
-import checkIcon from "../check.png"
+import NoteItem from "./NoteItem";
 
 export default function NotesTable(props){
     const [noteSettingsStyles, setNoteSettingsStyles] = useState({})
@@ -65,70 +60,25 @@ export default function NotesTable(props){
                     note.tag = props.profileTags.indexOf(note.tag) > -1 ? note.tag : ""
 
                     return (
-                        <div style={{
-                            "--note-background": note.task && note.done ? "var(--task-done)" : "white",
-                            backgroundImage: "url(../bookmark.png)"
-                        }} onMouseUp={(e) => {
-                            if(e.button === 2){
-                                setOpenSettings(!openSettings) 
-                                props.setNoteSel(note)
-
-                                props.setBodyClick(() => {
-                                    setOpenSettings(false)
-                                })
-
-                                setNoteSettingsStyles({
-                                    left: e.clientX,
-                                    top: e.clientY,
-                                    right: 'auto',
-                                    position: 'fixed',
-                                    animationName: "openNoteSettingsContextMenuAni"
-                                })
-                            }else{
-                                setNoteSettingsStyles({
-                                    right: '80px',
-                                    position: 'absolute',
-                                    animationName: "openNoteSettingsAni"
-                                })
-                            }
-                        }} key={note.title}>
-                            {
-                                openSettings && props.noteSel.title == note.title ? <NoteSettings styles={noteSettingsStyles} buttons={settingsButtons(note)} /> : null
-                            }
-                            {
-                                note.task ? <img src={bookMarkIco} alt="" /> : null
-                            }
-                            
-                            <section>
-                                <header>
-                                    <h1>{note.title}</h1>
-                                    <img onClick={() => {setOpenSettings(!openSettings); props.setNoteSel(note);}} src={ThreePoints} alt="" />
-                                </header>
-                                
-                                <section>
-                                    <textarea value={note.content} disabled></textarea>
-                                </section>
-
-                                <div className="underGroup">
-                                    <img onClick={() => {
-                                    props.openSetNoteTagDisplay()
-                                    props.setNoteSel(note)
-                                }} src={note.tag ? tagBackgroundIcon : tagIcon} alt="" />
-                                
-                                    <p  onClick={() => {
-                                    props.openSetNoteTagDisplay()
-                                    props.setNoteSel(note)
-                                }} >{note.tag}</p>
-                                    
-                                    {
-                                        note.task && note.done ? <img className="checkIconTask" src={checkIcon} /> : null
-                                    }
-                                    
-                                </div>
-
-
-                            </section>
-                        </div>
+                        <NoteItem
+                        changeAsTask={props.changeAsTask} 
+                        changeDoneTask={props.changeDoneTask} 
+                        profileTags={props.profileTags} 
+                        settingsButtons={settingsButtons} 
+                        setBodyClick={props.setBodyClick}
+                        noteSettingsStyles={noteSettingsStyles} 
+                        setNoteSettingsStyles={setNoteSettingsStyles} 
+                        openSettings={openSettings} 
+                        deleteNote={props.deleteNote}
+                        note={note}
+                        noteSel={props.noteSel}
+                        setNoteSel={props.setNoteSel}
+                        openSetNoteTagDisplay={props.openSetNoteTagDisplay}
+                        tag={props.tag}
+                        notes={props.notes}
+                        noteIsLoading={props.noteIsLoading}
+                        notesLoading={props.notesLoading}
+                        setOpenSettings={setOpenSettings}/>
                     )
                 })
             } 
