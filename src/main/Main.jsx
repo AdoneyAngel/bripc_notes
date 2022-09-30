@@ -278,14 +278,13 @@ export default class Main extends React.Component{
         profile.notes.list.map(note => {
             if(note.title == noteToChange.title){
                 note.task = value
+                note.done = false
             }
         })
 
         const userDoc = await this.props.getUserDoc()
 
-        //await setDoc(doc(this.db, "users", userDoc), profile)
-
-        console.log(profile)
+        await setDoc(doc(this.db, "users", userDoc), profile)
 
     }
 
