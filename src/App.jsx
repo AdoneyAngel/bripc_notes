@@ -170,13 +170,13 @@ export default class App extends React.Component{
 
     componentDidMount(){
         document.oncontextmenu = () => {return false}
-    }
-
-    render(){
 
         this.setState({
             isInMobileScreen: window.outerWidth <= 780 ? true : false
         })
+    }
+
+    render(){
 
         return (
             <BrowserRouter>
