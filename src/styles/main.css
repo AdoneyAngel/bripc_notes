@@ -217,3 +217,61 @@
         filter: opacity(0.5)
     }
 }
+
+@media (max-width: 780px) {
+    .main{
+        grid-template-columns: 1fr;
+    }
+    .notesListBox{
+        width: 90%;
+        padding: 0 10px;
+        overflow: visible;
+        position: absolute;
+    }
+    .tasksTable{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 0px;
+        height: calc(100vh - 150px);
+        font-size: 15px;
+        padding: 50px 10px;
+    }
+    .tasksTable > header{
+        position: fixed;
+        z-index: 7;
+        display: inline-block;
+        top: calc(25px / 2);
+        left: 30%;
+        background: transparent;
+        width: auto;
+        padding: 0;
+    }
+    .tasksTable > div{
+        height: 300px;
+        display: inline-block;
+        width: 80%;
+        margin: 0px auto;
+        position: relative;
+    }
+    .tasksTable > div > section > header > h1{
+        width: 90%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-height: 54px;
+    }
+    .tasksTable > div > section > section{
+        height: calc(300px - 60px);
+        margin-top: 40px;
+    }
+    .superiorMainBar > .createNoteButton{
+        margin-left: auto;
+        margin-right: 10px;
+        background-color: transparent;
+        filter: invert(1);
+        width: 33px;
+        height: 33px;
+    }
+}

@@ -40,7 +40,8 @@ export default class Main extends React.Component{
         noteSel: {},
         openUnFocusMainDisplay: false,
         UnFocusMainDisplayClick: () => {},
-        notesLoading: []
+        notesLoading: [],
+        openLeftBar: false
     }
 
     handleWritingCreateNote = (propierty, value) => {
@@ -224,6 +225,12 @@ export default class Main extends React.Component{
         });
     }
 
+    openLeftBar = () => {
+        this.setState({
+            openLeftBar: !this.state.openLeftBar 
+        })
+    }
+
     setTagSel = (tag) => {
         if(this.state.profile.notes.tags.indexOf(tag) < 0 && tag != "/" && !["Alltasks", "DoneTasks", "notDoneTasks"].indexOf(tag)) return false
 
@@ -346,8 +353,8 @@ export default class Main extends React.Component{
                 {
                     this.state.openUnFocusMainDisplay ? <UnFocusMainDisplay click={this.state.UnFocusMainDisplayClick} /> : null
                 }
-                <SuperiorMainBar openCreateNoteDisplay={this.openCreateNoteDisplay}/> 
-                <LeftBar setBodyClick={this.props.setBodyClick} deleteTag={this.deleteTag} openCreateTagDisplay={this.openCreateTagDisplay} setTagSel={this.setTagSel} task={this.state.writingCreateNote.task} tags={this.state.profile.notes.tags}/> 
+                <SuperiorMainBar openLeftBar={this.openLeftBar} openLeftBarValue={this.state.openLeftBar} isInMobileScreen={this.props.isInMobileScreen} openCreateNoteDisplay={this.openCreateNoteDisplay}/> 
+                <LeftBar isInMobileScreen={this.props.isInMobileScreen} openLeftBar={this.openLeftBar} openLeftBarValue={this.state.openLeftBar} setBodyClick={this.props.setBodyClick} deleteTag={this.deleteTag} openCreateTagDisplay={this.openCreateTagDisplay} setTagSel={this.setTagSel} task={this.state.writingCreateNote.task} tags={this.state.profile.notes.tags}/> 
                 <div className="notesListBox">
 
                     <Routes>

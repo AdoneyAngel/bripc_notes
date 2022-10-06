@@ -107,3 +107,14 @@
         opacity: 1;
     }
 }
+
+@media (max-width: 780px){
+    .createNoteDisplay{
+        width: 90%;
+        height: 70%;
+    }
+    .createNoteDisplay > form > button{
+        position: absolute;
+        bottom: -40px;
+    }
+}

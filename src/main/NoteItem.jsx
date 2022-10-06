@@ -18,7 +18,6 @@ export default function NoteItem(props){
         notesLoading,
         settingsButtons} = props
 
-
     return (
         <div style={{
                             "--note-background": note.task && note.done ? "var(--task-done)" : "white",
@@ -45,6 +44,8 @@ export default function NoteItem(props){
                                     position: 'absolute',
                                     animationName: "openNoteSettingsAni"
                                 })
+
+                                openSettings ? setOpenSettings(false) : setOpenSettings(openSettings)
                             }
                         }} key={note.title}>
                             {
@@ -57,7 +58,13 @@ export default function NoteItem(props){
                             <section>
                                 <header>
                                     <h1>{note.title}</h1>
-                                    <img onClick={() => {setOpenSettings(!openSettings); props.setNoteSel(note);}} src={ThreePoints} alt="" />
+                                    <img onClick={(e) => {
+                                        setOpenSettings(!openSettings); 
+                                        props.setNoteSel(note);
+                                        
+                                        console.log(e.button)
+
+                                    }} src={ThreePoints} alt="" />
                                 </header>
                                 
                                 <section>

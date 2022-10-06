@@ -28,3 +28,19 @@
     width: 60%;
     filter: invert(1);
 }
+.superiorMainBar > .openLeftBarButton{
+    background: transparent;
+}
+.superiorMainBar > .openLeftBarButton > div{
+    width: 20px;
+    height: 3px;
+    display: block;
+    background: var(--secondary-color);
+    position: absolute;
+}
+.superiorMainBar > .openLeftBarButton > .sandwichBar1{
+    margin-top: -14px
+}
+.superiorMainBar > .openLeftBarButton > .sandwichBar3{
+    margin-top: 15px
+}

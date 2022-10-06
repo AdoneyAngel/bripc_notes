@@ -18,7 +18,8 @@ export default class App extends React.Component{
         notification: false,
         loading: false,
         user: this.getUserCookie,
-        profile: {}
+        profile: {},
+        isInMobileScreen: false
     }
 
     setLoadingDisplay = () => {
@@ -172,6 +173,11 @@ export default class App extends React.Component{
     }
 
     render(){
+
+        this.setState({
+            isInMobileScreen: window.outerWidth <= 780 ? true : false
+        })
+
         return (
             <BrowserRouter>
             {this.state.loading ? <LoadingDisplay/> : null}
@@ -199,7 +205,8 @@ export default class App extends React.Component{
                     db={db}
                     setLoadingDisplay={this.setLoadingDisplay}
                     stopLoadingDisplay={this.stopLoadingDisplay}
-                    setBodyClick={this.setBodyClick}/>}></Route>
+                    setBodyClick={this.setBodyClick}
+                    isInMobileScreen={this.state.isInMobileScreen} />}></Route>
                 </Routes>
             </BrowserRouter>
         )

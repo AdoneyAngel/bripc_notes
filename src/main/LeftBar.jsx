@@ -20,8 +20,12 @@ export default function LeftBar(props){
         "Not_done"
     ]
 
+    let leftBarStyle = {
+        transform: props.openLeftBarValue ? "translateX(0)" : "translateX(-100%)",
+    }
+
     return (
-        <div className="leftBar">
+        <div style={props.isInMobileScreen ? leftBarStyle : {}} className="leftBar">
             <Link onClick={() => props.setTagSel("/")} className="homeLink" to="/main">
                 <img src={homeIcon} alt="" />
                 <p>HOME</p>

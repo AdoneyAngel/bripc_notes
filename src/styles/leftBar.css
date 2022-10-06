@@ -88,3 +88,27 @@
 .tagSettings > div > button:hover{
     filter: brightness(0.9);
 }
+
+@media (max-width: 780px){
+    .leftBar{
+        transform: translateX(-100%);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    .leftBar > .homeLink{
+        margin-left: 0;
+    }
+    .tagsListFolder{
+        margin-left: 0
+    }
+    .tagList{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    .tagLink{
+        margin-left: 0;
+    }
+}

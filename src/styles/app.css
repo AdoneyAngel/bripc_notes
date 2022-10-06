@@ -11,6 +11,7 @@
     --windows-animation: 0.1s ease-out;
     --color-red: #ff3e00;
     --task-done: #acffac;
+    --max-mobile-display: 780px;
 }
 *{
     margin: 0;
@@ -37,6 +38,10 @@ body{
     overflow: hidden;
 }
 @media (max-width: 780px){
+    *::-webkit-scrollbar{
+        background: transparent;
+        width: 5px;
+    }
     body{
         background: white;
     }
