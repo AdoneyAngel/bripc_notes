@@ -329,7 +329,7 @@ export default class Main extends React.Component{
             if(note.title === this.state.noteSel.title){
                 if(profile.notes.list.filter(noteProfile => noteProfile.title === title).length < 1){
                     note.title = title
-                }else{
+                }else if(title !== this.state.noteSel.title){
                     this.props.notification("This title already has another note")
                 }
                 note.content = content
