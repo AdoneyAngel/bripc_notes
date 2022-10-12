@@ -89,7 +89,8 @@ export default class App extends React.Component{
             profile: {
                 mail: mail,
                 name: name,
-                pass: pass
+                pass: pass,
+                friends: []
             }
         }
         await addDoc(collection(db, 'users'), newDoc)

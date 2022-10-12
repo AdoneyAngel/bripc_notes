@@ -29,6 +29,12 @@ export default function NotesTable(props){
                 click: () => {
                     props.changeAsTask(noteToSettings, !noteToSettings.task)
                 }
+            },
+            {
+                name: "Edit",
+                click: () => {
+                    props.openEditNoteDisplay()
+                }
             }
         ]
 

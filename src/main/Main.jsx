@@ -12,6 +12,7 @@ import CreateNoteDisplay from "./CreateNoteDisplay";
 import SetNoteTagDisplay from "./SetNoteTagDisplay";
 import UnFocusMainDisplay from "./UnFocusMainDisplay";
 import CreateTagDisplay from "./CreateTagDisplay";
+import EditNoteDisplay from "./EditNoteDisplay";
 
 export default class Main extends React.Component{
 
@@ -41,7 +42,8 @@ export default class Main extends React.Component{
         openUnFocusMainDisplay: false,
         UnFocusMainDisplayClick: () => {},
         notesLoading: [],
-        openLeftBar: false
+        openLeftBar: false,
+        openEditNoteDisplay: false
     }
 
     handleWritingCreateNote = (propierty, value) => {
@@ -81,7 +83,9 @@ export default class Main extends React.Component{
             done: false,
             task: this.state.writingCreateNote.task,
             tag: this.state.writingCreateNote.tag,
-            title: this.state.writingCreateNote.title.trim()
+            title: this.state.writingCreateNote.title.trim(),
+            owner: this.state.profile.profile.mail,
+            shareWith: []
         }
 
         const profile = this.state.profile
@@ -182,6 +186,9 @@ export default class Main extends React.Component{
         this.openCreateTagDisplay()
     }
 
+
+    //Open displays
+
     openCreateNoteDisplay = () => {
         this.setState({
             openCreateNoteDisplay: !this.state.openCreateNoteDisplay,
@@ -230,6 +237,16 @@ export default class Main extends React.Component{
             openLeftBar: !this.state.openLeftBar 
         })
     }
+
+    openEditNoteDisplay = () => {
+        this.setState({
+            openEditNoteDisplay: !this.state.openEditNoteDisplay,
+            openUnFocusMainDisplay: !this.state.openUnFocusMainDisplay,
+            UnFocusMainDisplayClick: this.openEditNoteDisplay
+        })
+    }
+
+    //#########################
 
     setTagSel = (tag) => {
         if(this.state.profile.notes.tags.indexOf(tag) < 0 && tag != "/" && !["Alltasks", "DoneTasks", "notDoneTasks"].indexOf(tag)) return false
@@ -304,6 +321,33 @@ export default class Main extends React.Component{
 
     }
 
+    editNote = async (title, content, tag, task) => {
+
+        let profile = this.state.profile
+
+        profile.notes.list.map(note => {
+            if(note.title === this.state.noteSel.title){
+                if(profile.notes.list.filter(noteProfile => noteProfile.title === title).length < 1){
+                    note.title = title
+                }else{
+                    this.props.notification("This title already has another note")
+                }
+                note.content = content
+                note.task = task
+                note.tag = tag
+            }
+            
+        })
+
+        this.addNoteLoading(this.state.noteSel.title)
+
+        const userDoc = await this.props.getUserDoc()
+
+        await setDoc(doc(this.props.db, "users", userDoc), profile)
+
+        this.deleteNoteLoading(this.state.noteSel.title)
+    }
+
     addNoteLoading = (noteTitle) => {
         if(this.state.notesLoading.indexOf(noteTitle) < 0){
 
@@ -342,6 +386,9 @@ export default class Main extends React.Component{
         return (
             <div className="main">
                 {
+                    this.state.openEditNoteDisplay ? <EditNoteDisplay closeEditNoteDisplay={this.openEditNoteDisplay} editNote={this.editNote} tags={this.state.profile.notes.tags} noteSel={this.state.noteSel} /> : null
+                }
+                {
                     this.state.openCreateTagDisplay ? <CreateTagDisplay createTag={this.createTag} /> : null
                 }
                 {
@@ -358,18 +405,18 @@ export default class Main extends React.Component{
                 <div className="notesListBox">
 
                     <Routes>
-                        <Route path="/" element={<NotesTable notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={this.state.profile.notes.list}/>}></Route>
+                        <Route path="/" element={<NotesTable openEditNoteDisplay={this.openEditNoteDisplay} notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={this.state.profile.notes.list}/>}></Route>
                         {this.state.profile.notes.tags.length > 0 ? this.state.profile.notes.tags.map(tag => {
-                            return <Route key={tag} path={tag} element={<NotesTable notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel} openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel}
+                            return <Route key={tag} path={tag} element={<NotesTable openEditNoteDisplay={this.openEditNoteDisplay} notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel} openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel}
                                  notes={this.state.profile.notes.list.filter(note => note.tag == this.state.tagSel)}/>}></Route>
                             }) : null}
 
                         {
                             //Tasks Links
                         }
-                        <Route path="AllTasks" element={<NotesTable notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.all}/>}></Route>
-                        <Route path="DoneTasks" element={<NotesTable notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.done}/>}></Route>
-                        <Route path="NotDoneTasks" element={<NotesTable notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.notDone}/>}></Route>
+                        <Route path="AllTasks" element={<NotesTable openEditNoteDisplay={this.openEditNoteDisplay} notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.all}/>}></Route>
+                        <Route path="DoneTasks" element={<NotesTable openEditNoteDisplay={this.openEditNoteDisplay} notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.done}/>}></Route>
+                        <Route path="NotDoneTasks" element={<NotesTable openEditNoteDisplay={this.openEditNoteDisplay} notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.notDone}/>}></Route>
                         
                     </Routes>
 

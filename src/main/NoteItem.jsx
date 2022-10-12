@@ -44,8 +44,6 @@ export default function NoteItem(props){
                                     position: 'absolute',
                                     animationName: "openNoteSettingsAni"
                                 })
-
-                                openSettings ? setOpenSettings(false) : setOpenSettings(openSettings)
                             }
                         }} key={note.title}>
                             {
