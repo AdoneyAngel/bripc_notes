@@ -9,17 +9,21 @@ import db from "./databases/db_bripcNotes"
 import Notify from "./components/Notify"
 import LoadingDisplay from "./components/LoadingDisplay"
 import Main from "./main/Main"
+import UnFocusMainDisplay from "./main/UnFocusMainDisplay"
 
 import './styles/app.css'
+import AdvertNotification from "./components/AdvertNotification"
 
 export default class App extends React.Component{
 
     state = {
         notification: false,
+        advertNotification: false,
         loading: false,
         user: this.getUserCookie,
         profile: {},
-        isInMobileScreen: false
+        isInMobileScreen: false,
+        openUnFocusMainDisplay: false
     }
 
     setLoadingDisplay = () => {
@@ -73,7 +77,9 @@ export default class App extends React.Component{
                     done: false,
                     task: false,
                     tag: "welcome",
-                    title: "Welcome"
+                    title: "Welcome",
+                    owner: mail,
+                    shareWith: []
                 }],
 
                 tags: [
@@ -135,6 +141,18 @@ export default class App extends React.Component{
         })
     }
 
+    advertNotification = (title, content) => {
+        this.setState({
+            advertNotification: {title:title, content:content}
+        })
+    }
+
+    closeAdvertNotification = () => {
+        this.setState({
+            advertNotification: false
+        })
+    }
+
     getProfile = async (name, mail) => {
 
         const users = await this.getBripcNotesUsers()
@@ -169,6 +187,26 @@ export default class App extends React.Component{
     }
 
     componentDidMount(){
+
+        let checkDataBaseNotification = async () => {
+            const notifications = await getDocs(collection(db, "notifications"))
+
+            if(notifications){
+
+                this.setState({
+                    openUnFocusMainDisplay: () => {
+                        this.setState({
+                            advertNotification :false,
+                            openUnFocusMainDisplay: false
+                        })
+                    }
+                })
+                this.advertNotification(notifications.docs[0].data().title, notifications.docs[0].data().content)
+            }
+        }
+
+        checkDataBaseNotification()
+
         document.oncontextmenu = () => {return false}
 
         this.setState({
@@ -180,7 +218,9 @@ export default class App extends React.Component{
 
         return (
             <BrowserRouter>
+            {this.state.openUnFocusMainDisplay ? <UnFocusMainDisplay click={this.state.openUnFocusMainDisplay} /> : null}
             {this.state.loading ? <LoadingDisplay/> : null}
+            {this.state.advertNotification ? <AdvertNotification title={this.state.advertNotification.title} content={this.state.advertNotification.content}/> : null}
             {this.state.notification ? <Notify text={this.state.notification}/> : null}
                 <Routes>
                     <Route path="/" element={<SignUp 
