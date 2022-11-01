@@ -1,6 +1,6 @@
 import React from "react";
 
-import advertIcon from "../advertColor.png"
+import advertIcon from "../advertColorBackground.png"
 
 import "../styles/advertNotification.css"
 

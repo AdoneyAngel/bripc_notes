@@ -28,6 +28,12 @@
     user-select: none;
 }
 
+@media (max-width: 780px) {
+    .advertNotification{
+        width: 80%;
+    }
+}
+
 @keyframes advertNotificationIconShow{
     0%{
         transform: translate(55%, 30%);
