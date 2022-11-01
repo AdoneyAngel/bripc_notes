@@ -274,4 +274,8 @@
         width: 33px;
         height: 33px;
     }
+    .noteItem:active{
+        transition: .5s;
+        transform: scale(0.98);
+    }
 }
