@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import NoteItem from "./NoteItem";
 
 export default function NotesTable(props){
     const [noteSettingsStyles, setNoteSettingsStyles] = useState({})
     const [openSettings, setOpenSettings] = useState(false)
+    const [noteImages, setNoteImages] = useState([])
 
     let settingsButtons = (noteToSettings) => {
 
@@ -52,6 +53,26 @@ export default function NotesTable(props){
         return buttons.reverse()
     }
 
+    let getNoteImages = async () => {
+        let imageList = []
+        
+        const userDoc = await props.getUserDoc()
+
+        const imageReferenceList = await props.getUserFiles(userDoc, "notes")
+
+        imageReferenceList.items.map(item => {
+            let newImage = {
+                name: item._location.path_.split("/")[item._location.path_.split("/").length-1].split(".")[0],
+                reference: item
+            }
+
+            imageList.push(newImage)
+        })
+
+        return imageList
+        
+    }
+
     return (
         <div className="tasksTable">
             <header className="headerNotesTable">
@@ -67,6 +88,8 @@ export default function NotesTable(props){
 
                     return (
                         <NoteItem
+                        getStorageFile={props.getStorageFile}
+                        getNoteImages={getNoteImages}
                         changeAsTask={props.changeAsTask} 
                         changeDoneTask={props.changeDoneTask} 
                         profileTags={props.profileTags} 

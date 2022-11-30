@@ -1,11 +1,15 @@
 import { collection, getDocs, addDoc, onSnapshot, doc } from "firebase/firestore"
+import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage"
 import React from "react"
 
 import {BrowserRouter, Routes, Route } from 'react-router-dom'
 
+//Data bases
+import db from "./databases/db_bripcNotes"
+import db_storage from "./databases/db_storage"
+
 import SignUp from "./sign/signUp/SignUp"
 import SignIn from "./sign/signIn/SignIn"
-import db from "./databases/db_bripcNotes"
 import Notify from "./components/Notify"
 import LoadingDisplay from "./components/LoadingDisplay"
 import Main from "./main/Main"
@@ -93,9 +97,11 @@ export default class App extends React.Component{
                 friends: []
             }
         }
-        await addDoc(collection(db, 'users'), newDoc)
+        const newDocAddedId = await addDoc(collection(db, 'users'), newDoc)
         
         this.saveUser(name, mail.trim())
+
+        this.createNewFirebaseFoldStorage(newDocAddedId.id)
 
         window.location = "/main"
     }
@@ -187,12 +193,60 @@ export default class App extends React.Component{
         }
     }
 
+    createNewFirebaseFoldStorage = async (userId) => {
+        const storageRef = ref(db_storage, "users")
+    }
+
+    uploadNoteImage = async (url, image, name) => {
+
+        const storageRef = ref(db_storage, url + name)
+
+        console.log(storageRef)
+
+        uploadBytes(storageRef, image).then(() => {
+            console.log("imagen subida")
+        })
+    }
+
+    getUserImageURL = async (user, folder, imageName) => {
+        const storageRef = ref(db_storage, `users/${user}/${folder}/${imageName}`)
+
+        getDownloadURL(storageRef).then(imgURL => {
+            return imgURL
+
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
+    getStorageFile = async (reference) => {
+        let url = ""
+        
+        await getDownloadURL(reference).then(fileURL => {
+            url = fileURL
+        })
+
+        return url
+    }
+
+    getUserFiles = async (user, folder) => {
+        const listRef = ref(db_storage, `users/${user}/${folder}`)
+        let fileList = []
+
+        await listAll(listRef).then(list => {
+            fileList =  list
+        })
+
+        return fileList
+    }
+    
+
     componentDidMount(){
 
         let checkDataBaseNotification = async () => {
             const notifications = await getDocs(collection(db, "notifications"))
 
-            if(notifications){
+            if(notifications.length){
 
                 this.setState({
                     openUnFocusMainDisplay: () => {
@@ -237,6 +291,10 @@ export default class App extends React.Component{
                     notification={this.notification} />}></Route>
 
                     <Route path="/main/*" element={<Main 
+                    getStorageFile={this.getStorageFile}
+                    getUserFiles={this.getUserFiles}
+                    getUserImageURL={this.getUserImageURL}
+                    uploadNoteImage={this.uploadNoteImage}
                     getProfile={this.getProfile}
                     getCookie={this.getCookie}
                     setCookie={this.setCookie}

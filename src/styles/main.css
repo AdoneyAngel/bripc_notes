@@ -137,6 +137,31 @@
     filter: opacity(0.6);
     animation: showCheckIconTask 0.2s ease-out;
 }
+.headerImage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 150px;
+}
+.headerImage > img{
+    width: 100%;
+    filter: opacity(0.9);
+}
+.headerImage::after{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 50%;
+    bottom: 0;
+    position: absolute;
+    background: var(--gradientColor);
+}
 .noteSettings{
     z-index: 5;
     position: absolute;

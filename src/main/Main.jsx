@@ -33,7 +33,8 @@ export default class Main extends React.Component{
             content: "",
             tag: "",
             task: false,
-            done: false
+            done: false,
+            image: false
         },
         openCreateNoteDisplay: false,
         openSetNoteTagDisplay: false,
@@ -48,6 +49,7 @@ export default class Main extends React.Component{
 
     handleWritingCreateNote = (propierty, value) => {
         let newNote = this.state.writingCreateNote
+        let setImage = false
 
         if(propierty == "title"){
             newNote.title = value
@@ -57,6 +59,10 @@ export default class Main extends React.Component{
             newNote.task = value
         }else if(propierty == "tag"){
             newNote.tag = newNote.tag != value ? value : ""
+        }else if(propierty = "image"){
+            const imageUrl = value
+
+            newNote.image = imageUrl
         }
 
         this.setState({
@@ -67,6 +73,8 @@ export default class Main extends React.Component{
     createNote = async () => {
         this.props.setLoadingDisplay()
 
+        const userDoc = await this.props.getUserDoc()
+
         if(this.state.writingCreateNote.title.length < 1 && this.state.writingCreateNote.content.length < 1){
             return false
         }
@@ -76,7 +84,13 @@ export default class Main extends React.Component{
             return false
         }
 
-        const userDoc = await this.props.getUserDoc()
+        if(this.state.writingCreateNote.image){
+            let imageToSet = this.state.writingCreateNote.image
+            let imageType = imageToSet.name.split(".")[imageToSet.name.split(".").length-1]
+            let imageName = `${this.state.writingCreateNote.title}.${imageType}`
+
+            await this.props.uploadNoteImage(`/users/${userDoc}/notes/`, imageToSet, imageName)
+        }
 
         const newNote = {
             content: this.state.writingCreateNote.content,
@@ -405,18 +419,98 @@ export default class Main extends React.Component{
                 <div className="notesListBox">
 
                     <Routes>
-                        <Route path="/" element={<NotesTable openEditNoteDisplay={this.openEditNoteDisplay} notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={this.state.profile.notes.list}/>}></Route>
+                        <Route path="/" element={<NotesTable 
+                            getStorageFile={this.props.getStorageFile}
+                            getUserDoc={this.props.getUserDoc}
+                            getUserFiles={this.props.getUserFiles}
+                            getUserImageURL={this.props.getUserImageURL} 
+                            openEditNoteDisplay={this.openEditNoteDisplay} 
+                            notesLoading={this.state.notesLoading} 
+                            noteIsLoading={this.state.noteIsLoading} 
+                            changeAsTask={this.changeAsTask} 
+                            changeDoneTask={this.changeDoneTask} 
+                            setBodyClick={this.props.setBodyClick} 
+                            profileTags={this.state.profile.notes.tags} 
+                            deleteNote={this.deleteNote} 
+                            noteSel={this.state.noteSel} 
+                            setNoteSel={this.setNoteSel}  
+                            openSetNoteTagDisplay={this.openSetNoteTagDisplay} 
+                            tag={this.state.tagSel} notes={this.state.profile.notes.list}/>}></Route>
                         {this.state.profile.notes.tags.length > 0 ? this.state.profile.notes.tags.map(tag => {
-                            return <Route key={tag} path={tag} element={<NotesTable openEditNoteDisplay={this.openEditNoteDisplay} notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel} openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel}
+                            return <Route key={tag} path={tag} element={<NotesTable 
+                                getStorageFile={this.props.getStorageFile}
+                                getUserDoc={this.props.getUserDoc}    
+                                getUserFiles={this.props.getUserFiles}
+                                getUserImageURL={this.props.getUserImageURL} 
+                                openEditNoteDisplay={this.openEditNoteDisplay} 
+                                notesLoading={this.state.notesLoading} 
+                                noteIsLoading={this.state.noteIsLoading} 
+                                changeAsTask={this.changeAsTask} 
+                                changeDoneTask={this.changeDoneTask} 
+                                setBodyClick={this.props.setBodyClick} 
+                                profileTags={this.state.profile.notes.tags} 
+                                deleteNote={this.deleteNote} 
+                                noteSel={this.state.noteSel} 
+                                setNoteSel={this.setNoteSel} 
+                                openSetNoteTagDisplay={this.openSetNoteTagDisplay} 
+                                tag={this.state.tagSel}
                                  notes={this.state.profile.notes.list.filter(note => note.tag == this.state.tagSel)}/>}></Route>
                             }) : null}
 
                         {
                             //Tasks Links
                         }
-                        <Route path="AllTasks" element={<NotesTable openEditNoteDisplay={this.openEditNoteDisplay} notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.all}/>}></Route>
-                        <Route path="DoneTasks" element={<NotesTable openEditNoteDisplay={this.openEditNoteDisplay} notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.done}/>}></Route>
-                        <Route path="NotDoneTasks" element={<NotesTable openEditNoteDisplay={this.openEditNoteDisplay} notesLoading={this.state.notesLoading} noteIsLoading={this.state.noteIsLoading} changeAsTask={this.changeAsTask} changeDoneTask={this.changeDoneTask} setBodyClick={this.props.setBodyClick} profileTags={this.state.profile.notes.tags} deleteNote={this.deleteNote} noteSel={this.state.noteSel} setNoteSel={this.setNoteSel}  openSetNoteTagDisplay={this.openSetNoteTagDisplay} tag={this.state.tagSel} notes={allTasks.notDone}/>}></Route>
+                        <Route path="AllTasks" element={<NotesTable 
+                            getStorageFile={this.props.getStorageFile}
+                            getUserDoc={this.props.getUserDoc}
+                            getUserFiles={this.props.getUserFiles}
+                            getUserImageURL={this.props.getUserImageURL} 
+                            openEditNoteDisplay={this.openEditNoteDisplay} 
+                            notesLoading={this.state.notesLoading} 
+                            noteIsLoading={this.state.noteIsLoading} 
+                            changeAsTask={this.changeAsTask} 
+                            changeDoneTask={this.changeDoneTask} 
+                            setBodyClick={this.props.setBodyClick} 
+                            profileTags={this.state.profile.notes.tags} 
+                            deleteNote={this.deleteNote} 
+                            noteSel={this.state.noteSel} 
+                            setNoteSel={this.setNoteSel}  
+                            openSetNoteTagDisplay={this.openSetNoteTagDisplay} 
+                            tag={this.state.tagSel} notes={allTasks.all}/>}></Route>
+                        <Route path="DoneTasks" element={<NotesTable 
+                            getStorageFile={this.props.getStorageFile}
+                            getUserDoc={this.props.getUserDoc}
+                            getUserFiles={this.props.getUserFiles}
+                            getUserImageURL={this.props.getUserImageURL} 
+                            openEditNoteDisplay={this.openEditNoteDisplay} 
+                            notesLoading={this.state.notesLoading} 
+                            noteIsLoading={this.state.noteIsLoading} 
+                            changeAsTask={this.changeAsTask} 
+                            changeDoneTask={this.changeDoneTask} 
+                            setBodyClick={this.props.setBodyClick} 
+                            profileTags={this.state.profile.notes.tags} 
+                            deleteNote={this.deleteNote} 
+                            noteSel={this.state.noteSel} 
+                            setNoteSel={this.setNoteSel}  
+                            openSetNoteTagDisplay={this.openSetNoteTagDisplay} 
+                            tag={this.state.tagSel} notes={allTasks.done}/>}></Route>
+                        <Route path="NotDoneTasks" element={<NotesTable 
+                            getStorageFile={this.props.getStorageFile}
+                            getUserDoc={this.props.getUserDoc}
+                            getUserFiles={this.props.getUserFiles}
+                            getUserImageURL={this.props.getUserImageURL} 
+                            openEditNoteDisplay={this.openEditNoteDisplay} 
+                            notesLoading={this.state.notesLoading} 
+                            noteIsLoading={this.state.noteIsLoading} 
+                            changeAsTask={this.changeAsTask} 
+                            changeDoneTask={this.changeDoneTask} 
+                            setBodyClick={this.props.setBodyClick} 
+                            profileTags={this.state.profile.notes.tags} 
+                            deleteNote={this.deleteNote} 
+                            noteSel={this.state.noteSel} 
+                            setNoteSel={this.setNoteSel}  
+                            openSetNoteTagDisplay={this.openSetNoteTagDisplay} 
+                            tag={this.state.tagSel} notes={allTasks.notDone}/>}></Route>
                         
                     </Routes>
 

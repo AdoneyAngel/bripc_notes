@@ -19,6 +19,22 @@
     height: 280px;
     overflow: hidden;
 }
+.createNoteDisplay > .createNoteDisplayIconBackground{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: .2;
+    z-index: -1;
+    animation: showCreateNoteDisplayBackground 0.2s ease-in-out;
+}
+.createNoteDisplay > .createNoteDisplayIconBackground > img{
+    width: 40%;
+}
 .createNoteDisplay > form > section > .createNoteDisplayFirstLabel{
     display: flex;
     flex-direction: row;
@@ -30,15 +46,39 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-left: auto;
-    margin-right: 10px;
+    margin-left: 10px;
+    margin-right: auto;
 }
-.createNoteDisplay > form > section > .createNoteDisplayFirstLabel > input{
+.createNoteDisplay > form > section > .createNoteDisplayFirstLabel > input[type="text"]{
     border: none;
     color: var(--medium-black);
     font-size: 1.2em;
     padding: 7px;
     width: 80%;
+    margin-left: 10px;
+    background-color: transparent;
+}
+.NoteImageSelect{
+    display: flex;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: url("../add-image.png");
+    background-attachment: fixed;
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: center;
+    margin-left: 20px;
+    margin-right: 10px;
+    overflow: hidden;
+}
+.NoteImageSelect > .selectNoteImageInput{
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-size: 0;
 }
 .createNoteDisplay > form > section > .createNoteDisplaySecondLabel{
     display: block;
@@ -52,6 +92,7 @@
     height: 95%;
     width: 90%;
     resize: none;
+    background: transparent;
 }
 .createNoteDisplay > form > div > h1{
     margin: 10px
@@ -116,5 +157,13 @@
     .createNoteDisplay > form > button{
         position: absolute;
         bottom: -40px;
+    }
+}
+@keyframes showCreateNoteDisplayBackground {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: .2;
     }
 }

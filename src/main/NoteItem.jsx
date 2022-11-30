@@ -7,10 +7,14 @@ import bookMarkIco from "../bookmark.png"
 import checkIcon from "../check.png"
 import cloudIcon from "../cloud.png"
 import Hammer from "react-hammerjs"
+import $ from "jquery"
 
 import NoteSettings from "./NoteSettings";
+import { useEffect } from "react";
 
 export default function NoteItem(props){
+    const [haveImage, setHaveImage] = useState(false)
+    const [imageUrl, setImageUrl] = useState("")
 
     let {note, setOpenSettings, 
         openSettings, 
@@ -45,6 +49,38 @@ export default function NoteItem(props){
         })
     }
 
+    let getImageUrl = async () => {
+        const imageList = await props.getNoteImages()
+
+        imageList.map(async (imageObject) => {
+            if(imageObject.name == note.title){
+                setHaveImage(true)
+
+                const imageObjectUrl = await props.getStorageFile(imageObject.reference)
+
+                setImageUrl(imageObjectUrl)
+            }
+        })
+    }
+
+    getImageUrl()
+
+    let styles = {
+        title: haveImage ? {
+            background: "#ffffff6b",
+            backdropFilter: "blur(3px)",
+            borderTopRightRadius: "5px",
+            borderBottomRightRadius: "5px",
+            marginLeft: "-20px",
+            padding: "4px 10px",
+            paddingLeft: "20px"
+        } : {},
+        content: haveImage ? {
+            marginTop: "120px",
+            height: "320px"
+        } : {}
+    }
+
 
     return (
         <Hammer options={hammerOptions} onPress={() => hammerPress()} onPressUp={() => hammerPressup()}>
@@ -70,6 +106,11 @@ export default function NoteItem(props){
                     }
                 }} key={note.title}>
                     {
+                        haveImage ? <div style={{
+                            "--gradientColor": `linear-gradient(180deg, transparent 30%, ${note.done ? "var(--task-done)" : "white"})`
+                        }} className="headerImage"><img src={imageUrl} /></div> : null
+                    }
+                    {
                         openSettings && props.noteSel.title == note.title ? <NoteSettings styles={noteSettingsStyles} buttons={settingsButtons(note)} /> : null
                     }
                     {
@@ -78,7 +119,7 @@ export default function NoteItem(props){
                     
                     <section>
                         <header>
-                            <h1>{note.title}</h1>
+                            <h1 style={styles.title}>{note.title}</h1>
                             <img onClick={(e) => {
                                 setOpenSettings(!openSettings); 
                                 props.setNoteSel(note);
@@ -88,8 +129,8 @@ export default function NoteItem(props){
                             }} src={ThreePoints} alt="" />
                         </header>
                         
-                        <section>
-                            <textarea value={note.content} disabled></textarea>
+                        <section style={styles.content}>
+                            <textarea  value={note.content} disabled></textarea>
                         </section>
 
                         <div className="underGroup">
@@ -119,3 +160,10 @@ export default function NoteItem(props){
         </Hammer>
     )
 }
+
+/* 
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: grayscale(1) contrast(100) invert();
+*/

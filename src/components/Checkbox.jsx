@@ -6,12 +6,12 @@ import iconCheck from "../check.png"
 
 import "../styles/checkbox.css"
 
-//props: checked=boolean, check="show, check", callback=function, style=object
+//props: checked=boolean, check="show / check / custom", callback=function, style=object
 
 export default function Checkbox(props){
 
     return (
-        props.check == "check" ? check(props) : show(props)
+        props.check == "check" ? check(props) : props.check == "show" ? show(props) : custom(props)
     )
 }
 
@@ -49,6 +49,24 @@ let show = (props) => {
             <img style={{
                 filter: props.checked ? "invert(1)" : "invert(0)"
             }} src={props.checked ? iconEye : iconEye_closed} />
+        </div>
+    )
+}
+
+let custom = (props) => {
+
+    return (
+        <div onClick={
+            () => {
+                props.callback()
+            }
+        } className="checkbox" style={{
+            background: props.checked ? "var(--secondary-color)" : "white",
+            ...props.style
+        }}>
+            <img style={{
+                filter: props.checked ? "invert(1)" : "invert(0)"
+            }} src={props.checked ? props.img : props.img} />
         </div>
     )
 }
