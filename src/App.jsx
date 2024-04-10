@@ -182,7 +182,9 @@ export default class App extends React.Component{
 
         const user = users.filter(user => user.data().profile.name == userName && user.data().profile.mail == userMail)[0]
 
-        return user.doc
+        console.log("DOC: " + user)
+        
+        //return user.doc
 
     }
 
